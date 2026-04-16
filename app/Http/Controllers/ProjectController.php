@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreProjectRequest;
+use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProjectController extends Controller
 {
@@ -13,8 +15,10 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
-        return view('projects.index', ['projects' => $projects]);
+//        $projects = Project::query()->where('user_id', Auth::id())->get();
+        return view('projects.index', [
+            'projects' => auth()->user()->projects
+        ]);
     }
 
     /**
@@ -30,10 +34,12 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        Project::create([
-            'title' => request('title'),
-            'description' => request('description'),
-            'status' => request('status')
+        $validated = $request->validated();
+
+        auth()->user()->projects()->create([
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'status' => $validated['status']
         ]);
 
         return redirect('/projects');
@@ -45,7 +51,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         return view('projects.show', [
-           'project' => $project
+            'project' => $project
         ]);
     }
 
@@ -62,16 +68,15 @@ class ProjectController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreProjectRequest $request, Project $project)
+    public function update(UpdateProjectRequest $request, Project $project)
     {
-        $newTitle = request('title');
-        $newDescription = request('description');
-        $newStatus = request('status');
+        $validatedUpdatedData = $request->validated();
 
         $project->update([
-            'title' => $newTitle,
-            'description' => $newDescription,
-            'status' => $newStatus]);
+            'title' => $validatedUpdatedData['title'],
+            'description' => $validatedUpdatedData['description'],
+            'status' => $validatedUpdatedData['status']
+        ]);
 
         return redirect("/projects/$project->id");
     }

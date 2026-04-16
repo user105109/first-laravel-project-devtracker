@@ -1,7 +1,7 @@
 <x-layout more-css="gap-x-6 gap-y-4 flex-wrap" title="Projects">
     @if(count($projects))
         @foreach($projects as $project)
-            <div class="card bg-neutral text-neutral-content w-96">
+            <div class=" min-h-[14rem] card bg-neutral text-neutral-content w-96">
                 <div class="card-body items-center text-center">
                     <h2 class="text-2xl font-bold card-title">{{ $project->title }} - ({{ $project->status }})</h2>
                     <p>{{ $project->description }}</p>

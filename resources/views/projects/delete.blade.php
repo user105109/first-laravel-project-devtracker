@@ -1,5 +1,4 @@
 <x-layout more-css="flex justify-center items-center">
-    <!-- https://medium.com/@mimranisrar6/creating-a-custom-confirmation-dialog-for-an-anchor-tag-4223514a7b0f -->
     <div class="fixed inset-0 flex items-center justify-center z-50 backdrop-blur confirm-dialog ">
         <div class="relative px-4 min-h-screen md:flex md:items-center md:justify-center">
             <div class=" opacity-25 w-full h-full absolute z-10 inset-0"></div>
